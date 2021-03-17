@@ -1,21 +1,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: poi-dahelm-deployment
+  name: poi-deployment
   labels:
-    app: poi-dahelm-deployment
+    app: poi-deployment
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: poi-dahelm
+      app: poi
   template:
     metadata:
       labels:
-        app: poi-dahelm
+        app: poi
     spec:
       containers:
       - name: poi
         image: registryhfd4279.azurecr.io/tripinsights/poi:1.0
         ports:
         - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Service
+metadata:
+  name: svc-poi
+  labels:
+    run: svc-poi
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    run: poi
