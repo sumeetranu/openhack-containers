@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: poi-deployment
+  name: trips-deployment
   labels:
-    app: poi-deployment
+    app: trips-deployment
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: poi
+      app: trips
   template:
     metadata:
       labels:
-        app: poi
+        app: trips
     spec:
       containers:
-      - name: poi
-        image: registryhfd4279.azurecr.io/tripinsights/poi:1.0
+      - name: trips
+        image: registryhfd4279.azurecr.io/tripinsights/trips:1.0
         ports:
         - containerPort: 80
         env:
@@ -44,12 +44,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: poi-svc
+  name: trips-svc
   labels:
-    app: poi
+    app: trips
 spec:
   ports:
   - port: 80
     protocol: TCP
   selector:
-    app: poi
+    app: trips
