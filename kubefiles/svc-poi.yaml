@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poi-dahelm-deployment
+  labels:
+    app: poi-dahelm-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: poi-dahelm
+  template:
+    metadata:
+      labels:
+        app: poi-dahelm
+    spec:
+      containers:
+      - name: poi
+        image: registryhfd4279.azurecr.io/tripinsights/poi:1.0
+        ports:
+        - containerPort: 80
