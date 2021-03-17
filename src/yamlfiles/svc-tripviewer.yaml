@@ -19,9 +19,9 @@ spec:
         - containerPort: 80
         env:
           - name: TRIPS_API_ENDPOINT
-            value: "trips-svc"
+            value: "http://trips-svc"
           - name: USERPROFILE_API_ENDPOINT
-            value: "userprofile-svc"
+            value: "http://userprofile-svc"
 
 ---
 apiVersion: v1
