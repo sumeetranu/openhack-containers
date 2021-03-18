@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-java-deployment
+  labels:
+    app: user-java-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user-java
+  template:
+    metadata:
+      labels:
+        app: user-java
+    spec:
+      containers:
+      - name: user-java
+        image: registryhfd4279.azurecr.io/tripinsights/user-java:1.0
+        ports:
+        - containerPort: 80
+        env:
+          - name: SQL_SERVER
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: SQL_SERVER
+          - name: SQL_DBNAME
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: SQL_DBNAME
+          - name: SQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: SQL_USER
+          - name: SQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: SQL_PASSWORD
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-java-svc
+  labels:
+    app: user-java
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: user-java
