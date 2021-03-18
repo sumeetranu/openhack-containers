@@ -20,11 +20,22 @@ spec:
       labels:
         app: userprofile
     spec:
-     containers:
+      containers:
       - name: userprofile
         image: registryhfd4279.azurecr.io/tripinsights/userprofile:1.0
         ports:
         - containerPort: 80
+        volumeMounts:
+        - name: secrets-store-inline
+          mountPath: "/secrets"
+          readOnly: true
+      volumes:
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "db-secret"
         # env:
         #   - name: SQL_SERVER
         #     valueFrom:
