@@ -1,7 +1,13 @@
+kind: Namespace
+apiVersion: v1
+metadata: 
+  name: api-dev
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: user-java-deployment
+  namespace: api-dev
   labels:
     app: user-java-deployment
 spec:
@@ -19,32 +25,23 @@ spec:
         image: registryhfd4279.azurecr.io/tripinsights/user-java:1.0
         ports:
         - containerPort: 80
-        env:
-          - name: SQL_SERVER
-            valueFrom:
-              secretKeyRef:
-                name: db-secret
-                key: SQL_SERVER
-          - name: SQL_DBNAME
-            valueFrom:
-              secretKeyRef:
-                name: db-secret
-                key: SQL_DBNAME
-          - name: SQL_USER
-            valueFrom:
-              secretKeyRef:
-                name: db-secret
-                key: SQL_USER
-          - name: SQL_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: db-secret
-                key: SQL_PASSWORD
+        volumeMounts:
+        - name: secrets-store-inline
+          mountPath: "/secrets"
+          readOnly: true
+      volumes:
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "db-secret"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: user-java-svc
+  namespace: api-dev
   labels:
     app: user-java
 spec:
@@ -53,3 +50,19 @@ spec:
     protocol: TCP
   selector:
     app: user-java
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: user-java
+  namespace: api-dev
+spec:
+  rules:
+    - http:
+        paths:
+        - backend:
+            serviceName: user-java-svc
+            servicePort: 80
+          path: /api/user-java
