@@ -1,0 +1,43 @@
+kind: Namespace
+apiVersion: v1
+metadata: 
+  name: api-dev
+---
+# This is a SecretProviderClass example using a service principal to access Keyvault
+apiVersion: secrets-store.csi.x-k8s.io/v1alpha1
+kind: SecretProviderClass
+metadata:
+  namespace: api-dev
+  name: db-secret
+spec:
+  provider: azure
+  parameters:
+    usePodIdentity: "false"         # [OPTIONAL] if not provided, will default to "false"
+    useVMManagedIdentity: "true"
+    keyvaultName: "akskeyv0318"          # the name of the KeyVault
+    cloudName: ""                   # [OPTIONAL for Azure] if not provided, azure environment will default to AzurePublicCloud
+    objects:  |
+      array:
+        - |
+          objectName: SQLDBNAME
+          objectType: secret        # object types: secret, key or cert
+          objectVersion: ""         # [OPTIONAL] object versions, default to latest if empty
+          objectAlias: SQL_DBNAME   # [OPTIONAL available for version > 0.0.4] object alias
+        - |
+          objectName: SQLUSER
+          objectType: secret        # object types: secret, key or cert
+          objectVersion: ""         # [OPTIONAL] object versions, default to latest if empty
+          objectAlias: SQL_USER     # [OPTIONAL available for version > 0.0.4] object alias
+        - |
+          objectName: SQLPASSWORD
+          objectType: secret        # object types: secret, key or cert
+          objectVersion: ""         # [OPTIONAL] object versions, default to latest if empty
+          objectAlias: SQL_PASSWORD # [OPTIONAL available for version > 0.0.4] object alias
+        - |
+          objectName: SQLSERVER
+          objectType: secret        # object types: secret, key or cert
+          objectVersion: ""         # [OPTIONAL] object versions, default to latest if empty
+          objectAlias: SQL_SERVER   # [OPTIONAL available for version > 0.0.4] object alias
+        
+          
+    tenantId: "2dc214f8-df9f-4fd6-a223-dcd625b0be7e"                 # the tenant ID of the KeyVault

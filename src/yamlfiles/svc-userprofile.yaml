@@ -20,32 +20,32 @@ spec:
       labels:
         app: userprofile
     spec:
-      containers:
+     containers:
       - name: userprofile
         image: registryhfd4279.azurecr.io/tripinsights/userprofile:1.0
         ports:
         - containerPort: 80
-        env:
-          - name: SQL_SERVER
-            valueFrom:
-              secretKeyRef:
-                name: db-secret
-                key: SQL_SERVER
-          - name: SQL_DBNAME
-            valueFrom:
-              secretKeyRef:
-                name: db-secret
-                key: SQL_DBNAME
-          - name: SQL_USER
-            valueFrom:
-              secretKeyRef:
-                name: db-secret
-                key: SQL_USER
-          - name: SQL_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: db-secret
-                key: SQL_PASSWORD
+        # env:
+        #   - name: SQL_SERVER
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: db-secret
+        #         key: SQL_SERVER
+        #   - name: SQL_DBNAME
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: db-secret
+        #         key: SQL_DBNAME
+        #   - name: SQL_USER
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: db-secret
+        #         key: SQL_USER
+        #   - name: SQL_PASSWORD
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: db-secret
+        #         key: SQL_PASSWORD
 ---
 apiVersion: v1
 kind: Service
