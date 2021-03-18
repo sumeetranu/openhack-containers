@@ -14,6 +14,7 @@ spec:
   parameters:
     usePodIdentity: "false"         # [OPTIONAL] if not provided, will default to "false"
     useVMManagedIdentity: "true"
+    userAssignedIdentityID: "c22f672d-68b8-4fb6-a5a8-2e7af4043732"   # [OPTIONAL available for version > 0.0.4] use the client id to specify which user assigned managed identity to use. If using a user assigned identity as the VM's managed identity, then specify the identity's client id. If empty, then defaults to use the system assigned identity on the VM
     keyvaultName: "akskeyv0318"          # the name of the KeyVault
     cloudName: ""                   # [OPTIONAL for Azure] if not provided, azure environment will default to AzurePublicCloud
     objects:  |
