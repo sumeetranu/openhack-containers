@@ -1,5 +1,7 @@
 #!/bin/bash
 
+AKS_ID=/subscriptions/39d07b0f-88c5-40cc-b714-ffff1bca236f/resourcegroups/teamResources/providers/Microsoft.ContainerService/managedClusters/securecluster
+
 ## Web Dev
 WEBDEV_GROUP_ID=$(az ad group create \
     --display-name Web-dev \

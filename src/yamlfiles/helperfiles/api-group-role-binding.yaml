@@ -1,29 +1,29 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  namespace: api
-  name: api-dev-rolebinding
+  namespace: api-dev
+  name: api-dev-group-rolebinding
 roleRef:
   kind: ClusterRole
   name: edit
   apiGroup: rbac.authorization.k8s.io
 subjects:
 - kind: Group
-  name: {{APIDEV_GROUP_ID}}
+  name: 5caf2af5-8a58-4b09-9480-18a6d8860869
   apiGroup: rbac.authorization.k8s.io
-  namespace: api
+  namespace: api-dev
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  namespace: web
-  name: api-dev-rolebinding
+  namespace: web-dev
+  name: api-dev-group-rolebinding
 roleRef:
   kind: ClusterRole
   name: view
   apiGroup: rbac.authorization.k8s.io
 subjects:
 - kind: Group
-  name: {{APIDEV_GROUP_ID}}
+  name: 5caf2af5-8a58-4b09-9480-18a6d8860869
   apiGroup: rbac.authorization.k8s.io
-  namespace: web
+  namespace: web-dev
